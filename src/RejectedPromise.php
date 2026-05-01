@@ -24,8 +24,8 @@ class RejectedPromise implements PromiseInterface
     }
 
     public function then(
-        callable $onFulfilled = null,
-        callable $onRejected = null
+        ?callable $onFulfilled = null,
+        ?callable $onRejected = null
     ) {
         // If there's no onRejected callback then just return self.
         if (!$onRejected) {
@@ -53,12 +53,12 @@ class RejectedPromise implements PromiseInterface
         return $p;
     }
 
-    public function otherwise(callable $onRejected)
+    public function otherwise(callable $onRejected): Promise|PromiseInterface|static
     {
         return $this->then(null, $onRejected);
     }
 
-    public function wait($unwrap = true, $defaultDelivery = null)
+    public function wait($unwrap = true, $defaultDelivery = null): null
     {
         if ($unwrap) {
             throw Create::exceptionFor($this->reason);
